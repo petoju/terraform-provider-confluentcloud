@@ -135,6 +135,26 @@ func apiKeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{})
 }
 
 func apiKeyRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	c := meta.(*ccloud.Client)
+
+	clusterID := d.Get("cluster_id").(string)
+	accountID := d.Get("environment_id").(string)
+	//userID := d.Get("user_id").(int)
+
+	keys, err := c.ListAPIKeys(clusterID, accountID)
+	if err != nil {
+		return diag.FromErr(fmt.Errorf("Error reading API keys (ID: %s, cluster: %s, account: %s): %s", d.Id(), clusterID, accountID, err))
+	}
+
+	wantKey := d.Get("key").(string)
+	for _, key := range keys {
+		if key.Key == wantKey {
+			return nil
+		}
+	}
+
+	// Key not found.
+	d.SetId("")
 	return nil
 }
 
