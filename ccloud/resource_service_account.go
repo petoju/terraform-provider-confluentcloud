@@ -101,10 +101,14 @@ func serviceAccountRead(ctx context.Context, d *schema.ResourceData, meta interf
 		return nil
 	}
 
-	d.Set("name", account.Name)
+	if err := d.Set("name", account.Name); err != nil {
+		return diag.FromErr(err)
+	}
 	// To consider: do we want to recreate account on change of description?
 	// It is suboptimal, but who knows what the better solution is.
-	d.Set("description", account.Description)
+	if err := d.Set("description", account.Description); err != nil {
+		return diag.FromErr(err)
+	}
 	return nil
 }
 

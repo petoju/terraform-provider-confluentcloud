@@ -29,7 +29,7 @@ func TestProvider_impl(t *testing.T) {
 	var _ *schema.Provider = Provider()
 }
 
-func testAccPreCheck(t *testing.T) {
+func TestProvider_login(t *testing.T) {
 	ctx := context.Background()
 	for _, name := range []string{"CONFLUENT_CLOUD_USERNAME", "CONFLUENT_CLOUD_PASSWORD"} {
 		if v := os.Getenv(name); v == "" {
