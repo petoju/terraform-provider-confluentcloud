@@ -197,8 +197,7 @@ func clusterCreate(ctx context.Context, d *schema.ResourceData, meta interface{}
 func clusterReady(client *ccloud.Client, clusterID, accountID, username, password string) resource.StateRefreshFunc {
 	return func() (result interface{}, s string, err error) {
 		cluster, err := client.GetCluster(clusterID, accountID)
-		log.Printf("[DEBUG] Waiting for Cluster to be UP: current status %s %s:%s", cluster.Status, username, password)
-		log.Printf("[DEBUG] cluster %v", cluster)
+		log.Printf("[DEBUG] Waiting for Cluster to be UP: cluster is %v; error %v; clusterID %v; accountID %v", cluster, err, clusterID, accountID)
 
 		if err != nil {
 			return cluster, "UNKNOWN", err
