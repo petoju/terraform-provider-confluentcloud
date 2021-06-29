@@ -4,11 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	ccloud "github.com/cgroschupp/go-client-confluent-cloud/confluentcloud"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -111,6 +109,8 @@ func apiKeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{})
 			return diag.FromErr(err)
 		}
 
+		/*
+		// Temporarily commented out as the cluster may be schema registry.
 		log.Printf("[INFO] Created API Key, waiting for it become usable")
 		stateConf := &resource.StateChangeConf{
 			Pending:      []string{"Pending"},
@@ -126,6 +126,7 @@ func apiKeyCreate(ctx context.Context, d *schema.ResourceData, meta interface{})
 		if err != nil {
 			return diag.FromErr(fmt.Errorf("Error waiting for API Key (%s) to be ready: %s", d.Id(), err))
 		}
+		*/
 	} else {
 		log.Printf("[ERROR] Could not create API key: %s", err)
 	}
